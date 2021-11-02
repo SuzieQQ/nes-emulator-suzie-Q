@@ -53,16 +53,16 @@ void Interrupt();
 void Table();
 
 
-                 // CPU registers
-u8 AC ;         //Accumulator
-u8 REG_X;      // Register_X
-u8 REG_Y;     // Register_Y
-u8 PC;       //Program_Counter
-u8 SP;      //Stack_Pointer
-u8 ST_REG; //Status_Register
-u8 m_skipCycles;
-u8 m_cycles;
-u8 opcode;
+                        // CPU registers
+u8 AC ;                //Accumulator
+u8 REG_X;             // Register_X
+u8 REG_Y;            // Register_Y
+u8 PC;              //Program_Counter
+u8 SP;             //Stack_Pointer
+u8 ST_REG;        //Status_Register
+u8 m_skipCycles; // skip_cycles
+u8 m_cycles;    // cycles
+
 
           //Addr  
 u8 IMPL;             // IMPLICT
@@ -112,7 +112,6 @@ enum IORegisters
         JOY2 = 0x4017,
     };
 
-//enum IntType { NMI, RESET, IRQ, /*BRK*/ };
 
 
 
