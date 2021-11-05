@@ -20,7 +20,7 @@ std::vector<u8> m_CHR_ROM;
 u8 m_nametablemirroring;
 u8 m_mapperNumber;
 bool m_extended_RAM;
-bool m_xhrRam;
+bool m_chrRam;
 
 
 
