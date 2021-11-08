@@ -1,6 +1,12 @@
 #include"typedef.h"
+#include <fstream>
+#include <string>
+#include <vector>
+#include <string>
+#include <cstdint>
 
-namespace cartridge{
+namespace CartidgeNES
+{
 
 
 class Cartridge
@@ -10,6 +16,8 @@ public:
     Cartridge();
 
 bool load_file(std::string path);
+const std::vector<u8>& get_Rom();
+const std::vector<u8>& get_VRom();
 u8 get_mapper();
 u8 get_nametablemirroring();
 bool RAM_extended();
