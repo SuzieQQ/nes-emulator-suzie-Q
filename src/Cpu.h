@@ -31,9 +31,7 @@ public:
          u8     (Cpu::*addrmode)(void) = nullptr;
          u8      cycles = 0;
      };
-
-     std::vector<INSTRUCTION> Table;
-
+            std::vector<INSTRUCTION> Table;
 
 
 
@@ -53,21 +51,19 @@ u8 DEC(); 	u8 DEX();   u8 DEY(); 	u8 EOR();
 
 u8 INC(); 	u8 INX();   u8 INY(); 	u8 JMP();
 
-u8 JSR();   u8 LDA(); 	u8 LDX();  u8 LDY();
+u8 JSR();   u8 LDA(); 	u8 LDX();   u8 LDY();
 
-u8 LSR(); 	u8 NOP(); 	u8 ORA();  u8 PHA();
+u8 LSR(); 	u8 NOP(); 	u8 ORA();   u8 PHA();
 
-u8 PHP(); 	u8 PLA(); 	u8 PLP();  u8 ROL(); 	
+u8 PHP(); 	u8 PLA(); 	u8 PLP();   u8 ROL(); 	
 
-u8 RTS();   u8	SBC();  u8 SEC();  u8 SED();
+u8 RTS();   u8	SBC();  u8 SEC();   u8 SED();
  	
-u8 SEI(); 	u8 STA(); 	u8 STX();  u8 STY();
+u8 SEI(); 	u8 STA(); 	u8 STX();   u8 STY();
 
-u8 TAX(); 	u8 TAY(); 	u8 TSX();  u8 TXA();
+u8 TAX(); 	u8 TAY(); 	u8 TSX();   u8 TXA();
 
 u8 TXS(); 	u8 TYA();  u8 ROR();   u8 RTI();
-
-u8 DCP();
 
 
 //Addr

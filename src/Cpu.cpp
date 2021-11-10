@@ -5,17 +5,12 @@
 
 Cpu::Cpu()
 {
- 
-Table =  {
 
-{"BRK", &Cpu::BRK, &Cpu::IMM, 7},
-
-
-
-};
-
-
-
+for (int i = 0; i < 256; i++)
+	
+	
+	Table[0x00] = INSTRUCTION{"BRK", &Cpu::BRK, &Cpu::IMP, 7};
+    Table[0x10] = INSTRUCTION{"BPL", &Cpu::BPL, &Cpu::REL, 2};
 } //Costructor
 
 Cpu::~Cpu(){}; //Distructor
@@ -57,6 +52,14 @@ void Cpu::Execute_Cycle()
 
 
 
+
+
+
+
+
+
+
+
  u8 Cpu::IMP()
 {
 	
@@ -72,4 +75,15 @@ u8 Cpu::BRK()
 {
 
   
+}
+
+u8 Cpu::REL()
+{
+
+
+}
+
+u8 Cpu::BPL()
+{
+
 }
