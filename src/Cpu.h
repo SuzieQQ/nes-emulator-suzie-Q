@@ -111,7 +111,7 @@ u8 PC;       //Program_Counter
 u8 SP;      //Stack_Pointer
 u8 ST_REG; //Status_Register
 u8 m_skipCycles;
-u8 m_cycles;
+u8 m_cycles; 
 
 
 
