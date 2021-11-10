@@ -35,8 +35,8 @@ public:
 
 
 
-
-//opcode
+  
+  //opcode
 u8 ADC();   u8	AND(); 	u8 ASL(); 	u8 BCC(); 	
 
 u8 BCS(); 	u8 BEQ(); 	u8 BIT(); 	u8 BMI(); 	
@@ -64,6 +64,10 @@ u8 SEI(); 	u8 STA(); 	u8 STX();   u8 STY();
 u8 TAX(); 	u8 TAY(); 	u8 TSX();   u8 TXA();
 
 u8 TXS(); 	u8 TYA();  u8 ROR();   u8 RTI();
+  
+  
+
+
 
 
 //Addr
