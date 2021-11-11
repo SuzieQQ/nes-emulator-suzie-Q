@@ -31,7 +31,8 @@ public:
          u8     (Cpu::*addrmode)(void) = nullptr;
          u8      cycles = 0;
      };
-            std::vector<INSTRUCTION> Table;
+    
+     std::vector<INSTRUCTION> Table;
 
 
 
@@ -43,27 +44,27 @@ u8 BCS();      u8 BEQ(); 	u8 BIT(); 	u8 BMI();
 
 u8 BNE();      u8 BPL(); 	u8 BRK(); 	u8 BVC(); 	
 
-u8 BVS();      u8 CLC();       u8 CLD();      u8 CLI();
+u8 BVS();      u8 CLC();  u8 CLD();   u8 CLI();
 
-u8 CLV();      u8 CMP(); 	u8 CPX();      u8 CPY();
+u8 CLV();      u8 CMP(); 	u8 CPX();   u8 CPY();
 
-u8 DEC();      u8 DEX();       u8 DEY();      u8 EOR();
+u8 DEC();      u8 DEX();  u8 DEY();   u8 EOR();
 
-u8 INC();      u8 INX();       u8 INY();      u8 JMP();
+u8 INC();      u8 INX();  u8 INY();   u8 JMP();
 
-u8 JSR();      u8 LDA(); 	u8 LDX();      u8 LDY();
+u8 JSR();      u8 LDA(); 	u8 LDX();   u8 LDY();
 
-u8 LSR();      u8 NOP(); 	u8 ORA();      u8 PHA();
+u8 LSR();      u8 NOP(); 	u8 ORA();   u8 PHA();
 
-u8 PHP();      u8 PLA(); 	u8 PLP();      u8 ROL(); 	
+u8 PHP();      u8 PLA(); 	u8 PLP();   u8 ROL(); 	
 
-u8 RTS();      u8  SBC();      u8 SEC();      u8 SED();
+u8 RTS();      u8 SBC();  u8 SEC();   u8 SED();
  	
-u8 SEI();      u8 STA(); 	u8 STX();      u8 STY();
+u8 SEI();      u8 STA(); 	u8 STX();   u8 STY();
 
-u8 TAX();      u8 TAY(); 	u8 TSX();      u8 TXA();
+u8 TAX();      u8 TAY(); 	u8 TSX();   u8 TXA();
 
-u8 TXS();      u8 TYA();       u8 ROR();      u8 RTI();
+u8 TXS();      u8 TYA();  u8 ROR();   u8 RTI();
 
 
 //Addr
@@ -95,28 +96,29 @@ void Execute_Cycle();
 void Reset();
 void Reset(u16 start_addr);
 bool Load(const char **);
-void NMI();
-void IRQ();
+void Nmi();
+void Irq();
 void Fetch();
 void Interrupt();
-
-
+void opbranch();
+void Push_Stack(u8);
+void Pop();
 
 
                  // CPU registers
-u8 AC ;         //Accumulator
-u8 REG_X;      // Register_X
-u8 REG_Y;     // Register_Y
-u8 PC;       //Program_Counter
-u8 SP;      //Stack_Pointer
-u8 ST_REG; //Status_Register
+u8 m_ac ;         //Accumulator
+u8 m_regX;      // Register_X
+u8 m_regY;     // Register_Y
+u8 m_pc;       //Program_Counter
+u8 m_sp;      //Stack_Pointer
+u8 m_st_reg; //Status_Register
 u8 m_skipCycles;
 u8 m_cycles;
+u8 m_status;
 
 
 
-
-enum class FLAGS{
+enum class FLAGS {
 
 
   C = ( 1 << 0 ),           // CARRY
@@ -124,13 +126,16 @@ enum class FLAGS{
   I = ( 1 << 2 ),         // Interrupt Disable
   D = ( 1 << 3 ),        // DECIMAL  
   B = ( 1 << 5 ),       // BREAK
-  N = ( 1 << 6 ),      // Negative
+  N = ( 1 << 6 ),     // Negative
   V = ( 1 << 7 ),     // Overflow    
 
-   };
+  };
 
 u8   GetFlag(FLAGS f);
 void SetFlag(FLAGS f, bool v);
+
+
+
 
 enum IORegisters
     {
