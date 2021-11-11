@@ -1,7 +1,9 @@
 #include"Typedef.h"
 #include "Cpu.h"
 
+namespace olc6502
 
+{
 
 Cpu::Cpu() //Costructor
 {
@@ -51,15 +53,21 @@ u8 Cpu::IMM(){}
 u8 Cpu::REL(){}
 
 u8 Cpu::BRK()
-
 {
+    
 m_pc++;
-Push_Stack(u8(m_pc >> 8));
-Push_Stack((u8)m_pc);
-Push_Stack(m_status /*| B*/ );
+Push_Stack(u8( m_pc >> 8));
+Push_Stack((u8) m_pc);
+Push_Stack(m_status | B );
 
 }
 
 u8 Cpu::BPL(){}
 
 u8 Cpu::JSR(){}
+
+
+
+
+}
+

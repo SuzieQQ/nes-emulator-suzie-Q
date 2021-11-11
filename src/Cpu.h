@@ -1,7 +1,9 @@
 #include"Typedef.h"
 
 
+namespace olc6502
 
+{
 
 const auto ResetVector = 0xfffc;
 u16 readAddress(u16 addr);
@@ -35,6 +37,9 @@ public:
      std::vector<INSTRUCTION> Table;
 
 
+
+
+
 //opcode
 u8 ADC();  u8 AND();  u8 ASL();   u8 BCC(); 	
 u8 BCS();  u8 BEQ();  u8 BIT();   u8 BMI(); 	
@@ -52,9 +57,6 @@ u8 TAX();  u8 TAY();  u8 TSX();   u8 TXA();
 u8 TXS();  u8 TYA();  u8 ROR();   u8 RTI();
 
 
-
-
-
 //Addr
 u8 IMP();
 u8 IMM();
@@ -68,6 +70,7 @@ u8 REL();
 u8 IND();
 u8 IZX();
 u8 IZY();
+
 
 
 
@@ -100,7 +103,7 @@ u8 m_status;
 
 
 
-enum class FLAGS {
+enum  FLAGS {
 
 
   C = ( 1 << 0 ),           // CARRY
@@ -142,5 +145,11 @@ enum IORegisters
 
 
 
+
+
+
+
+
+}
 
 
