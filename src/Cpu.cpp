@@ -98,8 +98,6 @@ Table[0xC8] = INSTRUCTION {"INY", &Cpu::INY, &Cpu::IMP, 2};
 Table[0xD8] = INSTRUCTION {"CLD", &Cpu::CLD, &Cpu::IMP, 2};
 Table[0xE8] = INSTRUCTION {"INX", &Cpu::INX, &Cpu::IMP, 2};
 Table[0xF8] = INSTRUCTION {"SED", &Cpu::SED, &Cpu::IMP, 2};
-
-
 Table[0x09] = INSTRUCTION {"ORA", &Cpu::ORA, &Cpu::IMM, 2};
 Table[0x19] = INSTRUCTION {"ORA", &Cpu::ORA, &Cpu::ABY, 4};
 Table[0x29] = INSTRUCTION {"AND", &Cpu::AND, &Cpu::IMM, 2};
@@ -113,7 +111,7 @@ Table[0xA9] = INSTRUCTION {"LDA", &Cpu::LDA, &Cpu::IMM, 2};
 Table[0xB9] = INSTRUCTION {"LDA", &Cpu::LDA, &Cpu::ABY, 4};
 Table[0xC9] = INSTRUCTION {"CMP", &Cpu::CMP, &Cpu::IMM, 2};
 Table[0xD9] = INSTRUCTION {"CMP", &Cpu::CMP, &Cpu::ABY, 4};
-Table[0xE9] = INSTRUCTION {"SBC", &Cpu::SBC, &Cpu::IMM, 2sS};
+Table[0xE9] = INSTRUCTION {"SBC", &Cpu::SBC, &Cpu::IMM, 2};
 Table[0xF9] = INSTRUCTION {"SBC", &Cpu::SBC, &Cpu::ABY, 4};
 */
 
