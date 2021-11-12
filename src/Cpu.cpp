@@ -162,9 +162,8 @@ Table[0xBE] = INSTRUCTION {"DEC", &Cpu::DEC, &Cpu::ABS, 6};
 Table[0xCE] = INSTRUCTION {"DEC", &Cpu::DEC, &Cpu::ABX, 7};
 Table[0xDE] = INSTRUCTION {"INC", &Cpu::INC, &Cpu::ABS, 6};
 Table[0xEE] = INSTRUCTION {"INC", &Cpu::INC, &Cpu::ABX, 7};
-
-
 */
+
 
 }
 
@@ -203,9 +202,25 @@ u8 Cpu::IMP(){}
 
 u8 Cpu::IMM(){}
 
-u8 Cpu::REL(){}
+u8 Cpu::ZP0(){}
+
+u8 Cpu::ZPX(){}
+
+u8 Cpu::ZPY(){}
 
 u8 Cpu::ABS(){}
+
+u8 Cpu::ABX(){}
+
+u8 Cpu::ABY(){}
+
+u8 Cpu::REL(){}
+
+u8 Cpu::IND(){}
+
+u8 Cpu::IZX(){}
+
+u8 Cpu::IZY(){}
 
 /*
 BRK initiates a software interrupt similar to a hardware
@@ -253,6 +268,7 @@ Push_Stack(u8( m_pc >> 8));
 Push_Stack((u8) m_pcm);
 m_pc = m_addr;
 
+
 }
 
 
@@ -283,12 +299,123 @@ u8 Cpu::BMI()
 */
 u8 Cpu::RTI(){}
 
-
-
 u8 Cpu::BVC(){}
 
-
 u8 Cpu::RTS(){}
+
+u8 Cpu::BVS(){}
+
+u8 Cpu::BCC(){}
+
+u8 Cpu::LDY(){}
+
+u8 Cpu::BCS(){}
+
+u8 Cpu::CPY(){}
+
+u8 Cpu::BNE(){}
+
+u8 Cpu::CPX(){}
+
+u8 Cpu::BEQ(){}
+
+u8 Cpu::AND(){}
+
+u8 Cpu::ORA(){}
+
+u8 Cpu::EOR(){}
+
+u8 Cpu::ADC(){}
+
+u8 Cpu::STA(){}
+
+u8 Cpu::LDA(){}
+
+u8 Cpu::CMP(){}
+
+u8 Cpu::SBC(){}
+
+u8 Cpu::LDX(){}
+
+u8 Cpu::BIT(){}
+
+u8 Cpu::STY(){}
+
+u8 Cpu::ASL(){} 
+
+u8 Cpu::ROL(){}
+
+u8 Cpu::LSR(){}
+
+u8 Cpu::ROR(){}
+
+u8 Cpu::STX(){}
+
+u8 Cpu::DEC(){}
+
+u8 Cpu::INC(){}
+
+u8 Cpu::PHP(){}
+
+u8 Cpu::CLC(){}
+
+u8 Cpu::PLP(){}
+
+u8 Cpu::SEC(){}
+
+u8 Cpu::PHA(){}
+
+u8 Cpu::CLI(){}
+
+u8 Cpu::PLA(){}
+
+u8 Cpu::SEI(){}
+
+u8 Cpu::DEY(){}
+
+u8 Cpu::TYA(){} 
+
+u8 Cpu::TAY(){}
+
+u8 Cpu::CLV(){}
+
+u8 Cpu::INY(){}
+
+u8 Cpu::CLD(){}
+
+u8 Cpu::INX(){}
+
+u8 Cpu::SED(){}
+
+u8 Cpu::TXA(){}
+
+u8 Cpu::TXS(){}
+
+u8 Cpu::TAX(){}
+
+u8 Cpu::TSX(){}  
+
+u8 Cpu::DEX(){}
+
+u8 Cpu::NOP(){} 
+
+u8 Cpu::JMP(){}
+
+
+    
+
+ 
+  	
+
+        
+      
+
+
+
+
+
+
+
 
 
 }
