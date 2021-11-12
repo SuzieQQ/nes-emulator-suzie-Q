@@ -75,7 +75,6 @@ u8 IZY();
 
 
 
-
 void Init();
 void Execute_Cycle();
 void Reset();
@@ -90,18 +89,18 @@ void Push_Stack(u8);
 void Pop();
 
 
-                 // CPU registers
-u8 m_ac ;         //Accumulator
-u8 m_regX;      // Register_X
-u8 m_regY;     // Register_Y
-u8 m_pc;       //Program_Counter
-u8 m_sp;      //Stack_Pointer
-u8 m_st_reg; //Status_Register
+ // CPU registers             
+u8 m_ac ;           //Accumulator
+u8 m_regX;         // Register_X
+u8 m_regY;         // Register_Y
+u8 m_pc;          //Program_Counter
+u8 m_sp;           //Stack_Pointer
+u8 m_st_reg;      //Status_Register
 u8 m_skipCycles;
 u8 m_cycles;
 u8 m_status;
-
-
+u16 m_addr;
+u8 m_pcm;
 
 enum  FLAGS {
 
