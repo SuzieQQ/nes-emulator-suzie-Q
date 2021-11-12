@@ -66,7 +66,55 @@ Table[0xC5] = INSTRUCTION {"CMP", &Cpu::CMP, &Cpu::ZP0, 3};
 Table[0xD5] = INSTRUCTION {"CMP", &Cpu::CMP, &Cpu::ZPX, 4};
 Table[0xE5] = INSTRUCTION {"SBC", &Cpu::SBC, &Cpu::ZP0, 3};
 Table[0xF5] = INSTRUCTION {"SBC", &Cpu::SBC, &Cpu::ZPX, 4};
+Table[0x06] = INSTRUCTION {"ASL", &Cpu::ASL, &Cpu::ZP0, 5};
+Table[0x16] = INSTRUCTION {"ASL", &Cpu::ASL, &Cpu::ZPX, 6};
+Table[0x26] = INSTRUCTION {"ROL", &Cpu::ROL, &Cpu::ZP0, 5};
+Table[0x36] = INSTRUCTION {"ROL", &Cpu::ROL, &Cpu::ZPX, 6};
+Table[0x46] = INSTRUCTION {"LSR", &Cpu::LSR, &Cpu::ZP0, 5};
+Table[0x56] = INSTRUCTION {"LSR", &Cpu::LSR, &Cpu::ZPX, 6};
+Table[0x66] = INSTRUCTION {"ROR", &Cpu::ROR, &Cpu::ZP0, 5};
+Table[0x76] = INSTRUCTION {"ROR", &Cpu::ROR, &Cpu::ZPX, 6};
+Table[0x86] = INSTRUCTION {"STX", &Cpu::STX, &Cpu::ZP0, 3};
+Table[0x96] = INSTRUCTION {"STX", &Cpu::STX, &Cpu::ZPY, 4};
+Table[0xA6] = INSTRUCTION {"LDX", &Cpu::LDX, &Cpu::ZP0, 3};
+Table[0xB6] = INSTRUCTION {"LDX", &Cpu::LDX, &Cpu::ZPY, 4};
+Table[0xC6] = INSTRUCTION {"DEC", &Cpu::DEC, &Cpu::ZP0, 5};
+Table[0xD6] = INSTRUCTION {"DEC", &Cpu::DEC, &Cpu::ZPX, 6};
+Table[0xE6] = INSTRUCTION {"INC", &Cpu::INC, &Cpu::ZP0, 5};
+Table[0xF6] = INSTRUCTION {"INC", &Cpu::INC, &Cpu::ZPX, 6};
+Table[0x08] = INSTRUCTION {"PHP", &Cpu::PHP, &Cpu::IMP, 3};
+Table[0x18] = INSTRUCTION {"CLC", &Cpu::CLC, &Cpu::IMP, 2};
+Table[0x28] = INSTRUCTION {"PLP", &Cpu::PLP, &Cpu::IMP, 4};
+Table[0x38] = INSTRUCTION {"SEC", &Cpu::SEC, &Cpu::IMP, 2};
+Table[0x48] = INSTRUCTION {"PHA", &Cpu::PHA, &Cpu::IMP, 3};
+Table[0x58] = INSTRUCTION {"CLI", &Cpu::CLI, &Cpu::IMP, 2};
+Table[0x68] = INSTRUCTION {"PLA", &Cpu::PLA, &Cpu::IMP, 4};
+Table[0x78] = INSTRUCTION {"SEI", &Cpu::SEI, &Cpu::IMP, 2};
+Table[0x88] = INSTRUCTION {"DEY", &Cpu::DEY, &Cpu::IMP, 2};
+Table[0x98] = INSTRUCTION {"TYA", &Cpu::TYA, &Cpu::IMP, 2};
+Table[0xA8] = INSTRUCTION {"TAY", &Cpu::TAY, &Cpu::IMP, 2};
+Table[0xB8] = INSTRUCTION {"CLV", &Cpu::CLV, &Cpu::IMP, 2};
+Table[0xC8] = INSTRUCTION {"INY", &Cpu::INY, &Cpu::IMP, 2};
+Table[0xD8] = INSTRUCTION {"CLD", &Cpu::CLD, &Cpu::IMP, 2};
+Table[0xE8] = INSTRUCTION {"INX", &Cpu::INX, &Cpu::IMP, 2};
+Table[0xF8] = INSTRUCTION {"SED", &Cpu::SED, &Cpu::IMP, 2};
 
+
+Table[0x09] = INSTRUCTION {"ORA", &Cpu::ORA, &Cpu::IMM, 2};
+Table[0x19] = INSTRUCTION {"ORA", &Cpu::ORA, &Cpu::ABY, 4};
+Table[0x29] = INSTRUCTION {"AND", &Cpu::AND, &Cpu::IMM, 2};
+Table[0x39] = INSTRUCTION {"AND", &Cpu::AND, &Cpu::ABY, 4};
+Table[0x49] = INSTRUCTION {"EOR", &Cpu::EOR, &Cpu::IMM, 2};
+Table[0x59] = INSTRUCTION {"EOR", &Cpu::EOR, &Cpu::ABY, 4};
+Table[0x69] = INSTRUCTION {"ADC", &Cpu::ADC, &Cpu::IMM, 2};
+Table[0x79] = INSTRUCTION {"ADC", &Cpu::ADC, &Cpu::ABY, 4};
+Table[0x99] = INSTRUCTION {"STA", &Cpu::STA, &Cpu::ABY, 5};
+Table[0xA9] = INSTRUCTION {"LDA", &Cpu::LDA, &Cpu::IMM, 2};
+Table[0xB9] = INSTRUCTION {"LDA", &Cpu::LDA, &Cpu::ABY, 4};
+Table[0xC9] = INSTRUCTION {"CMP", &Cpu::CMP, &Cpu::IMM, 2};
+Table[0xD9] = INSTRUCTION {"CMP", &Cpu::CMP, &Cpu::ABY, 4};
+Table[0xE9] = INSTRUCTION {"SBC", &Cpu::SBC, &Cpu::IMM, 2sS};
+Table[0xF9] = INSTRUCTION {"SBC", &Cpu::SBC, &Cpu::ABY, 4};
 */
 
 }
