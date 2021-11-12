@@ -82,12 +82,11 @@ void Reset(u16 start_addr);
 bool Load(const char **);
 void Nmi();
 void Irq();
-void Fetch();
 void Interrupt();
 void opbranch();
 void Push_Stack(u8);
 void Pop();
-
+void Write(u16 a, u8 d);
 
  // CPU registers             
 u8 m_ac ;           //Accumulator
@@ -101,6 +100,14 @@ u8 m_cycles;
 u8 m_status;
 u16 m_addr;
 u8 m_pcm;
+u8 m_start;
+u8 m_end;
+u8 m_fetched;
+u8 m_temp;
+u8 m_read(u16 a);
+
+
+
 
 enum  FLAGS {
 

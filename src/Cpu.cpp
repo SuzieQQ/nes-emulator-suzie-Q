@@ -168,7 +168,7 @@ Cpu::~Cpu(){}; //Distructor
 
 
 
-void Cpu::Reset(u16 start_addr)
+void Cpu::Reset(u16 m_start_addr)
 {
 m_cycles = 0;
 m_skipCycles = 0;
@@ -176,7 +176,7 @@ m_ac = 0;
 m_regX = 0;     
 m_regY = 0;   
 m_st_reg = 0 ;   
-m_pc = start_addr;      
+m_pc = m_start_addr;      
 m_sp = 0xfd;     
 
 }
@@ -211,7 +211,17 @@ u8 Cpu::ABX(){}
 
 u8 Cpu::ABY(){}
 
-u8 Cpu::REL(){}
+u8 Cpu::REL()
+{
+
+if ((m_start & 0xff00) == (m_end & 0xff0))
+{
+m_cycles++;
+}
+else
+   m_cycles +=2;
+
+}
 
 u8 Cpu::IND(){}
 
@@ -246,7 +256,7 @@ u8 Cpu::BPL()
     
   //opbranch();
   
-  if (N == 0)
+  if (GetFlag(N) == 0)
 {
  
   (m_pc,m_pc +  m_addr);
@@ -275,7 +285,7 @@ u8 Cpu::BMI()
 
   //opbranch();
 
-  if (N == 1)
+  if (GetFlag(N) == 1)
 {
  
   (m_pc,m_pc +  m_addr);
@@ -294,13 +304,59 @@ u8 Cpu::BMI()
     The status register is pulled with the break flag
     and bit 5 ignored. Then PC is pulled from the stack.
 */
-u8 Cpu::RTI(){}
+u8 Cpu::RTI()
+{
 
-u8 Cpu::BVC(){}
+}
 
-u8 Cpu::RTS(){}
 
-u8 Cpu::BVS(){}
+   
+
+//Branch on Overflow Clear   branch on V = 0
+
+u8 Cpu::BVC()
+{
+ if (GetFlag(V) == 0)
+ {
+   m_cycles++;
+   m_addr = m_pc + m_addr;
+
+    if ((m_addr & 0xFF00) != (m_pc & 0xFF00))
+			m_cycles++;
+
+		m_pc = m_addr;
+ }
+ 
+}
+
+
+/*
+Return from Subroutine
+pull PC, PC+1 -> PC
+*/
+u8 Cpu::RTS()
+{
+  m_sp++;
+	m_pc = (u8)m_read(0x0100 + m_sp);
+	m_sp++;
+	m_pc |= (u8)m_read(0x0100 + m_sp) << 8;
+	
+  m_pc++;
+
+}
+//branch on V = 1
+u8 Cpu::BVS()
+{
+if (GetFlag(V)==1)
+
+{
+
+
+}
+
+
+
+}
 
 u8 Cpu::BCC(){}
 
