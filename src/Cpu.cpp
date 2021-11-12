@@ -17,7 +17,6 @@ Table[0x30] = INSTRUCTION {"BMI", &Cpu::BMI, &Cpu::REL, 2};
 Table[0x40] = INSTRUCTION {"RTI", &Cpu::RTI, &Cpu::IMP, 6};
 Table[0x50] = INSTRUCTION {"BVC", &Cpu::BVC, &Cpu::REL, 2};
 Table[0x60] = INSTRUCTION {"RTS", &Cpu::RTS, &Cpu::IMP, 6};
-/*
 Table[0x70] = INSTRUCTION {"BVS", &Cpu::BVS, &Cpu::REL, 2};
 Table[0x90] = INSTRUCTION {"BCC", &Cpu::BCC, &Cpu::REL, 2};
 Table[0xA0] = INSTRUCTION {"LDY#",&Cpu::LDY, &Cpu::IMM, 2};
@@ -162,8 +161,6 @@ Table[0xBE] = INSTRUCTION {"DEC", &Cpu::DEC, &Cpu::ABS, 6};
 Table[0xCE] = INSTRUCTION {"DEC", &Cpu::DEC, &Cpu::ABX, 7};
 Table[0xDE] = INSTRUCTION {"INC", &Cpu::INC, &Cpu::ABS, 6};
 Table[0xEE] = INSTRUCTION {"INC", &Cpu::INC, &Cpu::ABX, 7};
-*/
-
 
 }
 
