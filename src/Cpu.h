@@ -5,16 +5,12 @@ namespace olc6502
 
 {
 
-const auto ResetVector = 0xfffc;
-u16 readAddress(u16 addr);
 
 class Cpu
 
 {
-
-
+  
 private:
-
 
 
 public:
@@ -86,7 +82,7 @@ void Interrupt();
 void opbranch();
 void Push_Stack(u8);
 void Pop();
-void Write(u16 a, u8 d);
+void Write(u16 , u8);
 
  // CPU registers             
 u8 m_ac ;           //Accumulator
@@ -95,10 +91,11 @@ u8 m_regY;         // Register_Y
 u8 m_pc;          //Program_Counter
 u8 m_sp;           //Stack_Pointer
 u8 m_st_reg;      //Status_Register
-u8 m_skipCycles;
-u8 m_cycles;
-u8 m_status;
-u16 m_addr;
+u8 m_skipCycles; //Skip Cyles
+u8 m_cycles;     //Cycles
+u8 m_status;   //
+u16 m_addr_a;
+u16 m_addr_b;
 u8 m_pcm;
 u8 m_start;
 u8 m_end;

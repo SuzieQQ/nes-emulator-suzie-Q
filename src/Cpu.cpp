@@ -5,6 +5,34 @@ namespace olc6502
 
 {
 
+u8 Cpu::m_read(u16 f_read)
+
+{
+
+}
+
+void Cpu::Write(u16 f_read, u8 f_write)
+{
+
+
+}
+
+
+
+u8 Cpu::GetFlag(FLAGS f)
+{
+	return ((m_status & f) > 0) ? 1 : 0;
+}
+
+void Cpu::SetFlag(FLAGS f, bool v)
+{
+    if (v)
+		m_status |= f;
+	else
+		m_status &= ~f;
+}
+
+
 Cpu::Cpu() //Costructor
 {
 
@@ -250,18 +278,16 @@ Push_Stack(m_status | B );
 
 }
 // branch on N = 0
-
 u8 Cpu::BPL()
 {
     
-  //opbranch();
   
   if (GetFlag(N) == 0)
 {
  
-  (m_pc,m_pc +  m_addr);
+  (m_pc,m_pc +  m_addr_a);
       
-      m_pc + m_addr ;
+      m_pc + m_addr_a ;
 
 }
 
@@ -270,10 +296,10 @@ u8 Cpu::BPL()
 // Jump to New Location Saving Return Address
 u8 Cpu::JSR(){
 
-m_pcm = m_pc -1;
+m_pc --;
 Push_Stack(u8( m_pc >> 8));
-Push_Stack((u8) m_pcm);
-m_pc = m_addr;
+Push_Stack((u8) m_pc);
+m_pc = m_addr_a;
 
 
 }
@@ -288,15 +314,14 @@ u8 Cpu::BMI()
   if (GetFlag(N) == 1)
 {
  
-  (m_pc,m_pc +  m_addr);
+  (m_pc,m_pc +  m_addr_a);
       
-      m_pc + m_addr ;
+      m_pc + m_addr_a ;
 
 }
 
 
 }
-
 
 
 /*               RTI
@@ -306,6 +331,16 @@ u8 Cpu::BMI()
 */
 u8 Cpu::RTI()
 {
+m_sp++;
+	m_status = m_read(0x0100 + m_sp);
+	m_status &= ~B;
+	m_status &= ~B;
+
+	m_sp++;
+	m_pc =  (u16)m_read(0x0100 + m_sp);
+	m_sp++;
+	m_pc |= (u16)m_read(0x0100 + m_sp) << 8;
+	
 
 }
 
@@ -319,12 +354,12 @@ u8 Cpu::BVC()
  if (GetFlag(V) == 0)
  {
    m_cycles++;
-   m_addr = m_pc + m_addr;
+   m_addr_a = m_pc + m_addr_b;
 
-    if ((m_addr & 0xFF00) != (m_pc & 0xFF00))
+    if ((m_addr_a & 0xFF00) != (m_pc & 0xFF00))
 			m_cycles++;
 
-		m_pc = m_addr;
+		m_pc = m_addr_a;
  }
  
 }
@@ -337,10 +372,9 @@ pull PC, PC+1 -> PC
 u8 Cpu::RTS()
 {
   m_sp++;
-	m_pc = (u8)m_read(0x0100 + m_sp);
-	m_sp++;
-	m_pc |= (u8)m_read(0x0100 + m_sp) << 8;
-	
+  m_pc = (u8)m_read(0x0100 + m_sp);
+  m_sp++;
+  m_pc |= (u8)m_read(0x0100 + m_sp) << 8;
   m_pc++;
 
 }
@@ -350,6 +384,7 @@ u8 Cpu::BVS()
 if (GetFlag(V)==1)
 
 {
+m_cycles++;
 
 
 }
@@ -357,8 +392,18 @@ if (GetFlag(V)==1)
 
 
 }
+//branch on C = 0 Branch on Carry Clear
+u8 Cpu::BCC()
+{
+if (GetFlag(C)==0 )
+{
+m_cycles++;
+SetFlag(C, false);
 
-u8 Cpu::BCC(){}
+}
+
+
+}
 
 u8 Cpu::LDY(){}
 
