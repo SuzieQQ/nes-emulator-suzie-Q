@@ -1,22 +1,23 @@
 #include"Typedef.h"
+#include"Bus.h"
 #include "Cpu.h"
 
 namespace olc6502
 
 {
 
-u8 Cpu::m_read(u16 f_read)
+u8 Cpu::m_read(u16 a )
+{
+return bus->m_read(a,false);
+}  
 
+
+void Cpu::Write(u16 a, u8 data)
 {
 
-}
-
-void Cpu::Write(u16 f_read, u8 f_write)
-{
-
+bus->Write(a,data);
 
 }
-
 
 
 u8 Cpu::GetFlag(FLAGS f)
@@ -210,9 +211,24 @@ m_sp = 0xfd;
 }
 
 
-void Cpu::Interrupt(){}
+void Cpu::Interrupt()
+{
 
-void Cpu::Execute_Cycle(){}
+}
+
+void Cpu::Execute_Cycle()
+{
+
+}
+
+
+u8 Cpu::fetch()
+{
+  if (!(Table[m_opcode].addrmode == &Cpu::IMP))
+		m_fetched = m_read(m_addr_a);
+	return m_fetched;
+  
+}
 
 void Cpu::Push_Stack(u8 value)
 
@@ -223,39 +239,137 @@ Push_Stack(value & 0x00FF);
 
 }
 
-u8 Cpu::IMP(){}
+u8 Cpu::IMP()
+{
+  m_fetched = m_ac;
+}
 
-u8 Cpu::IMM(){}
+u8 Cpu::IMM()
+{
+  m_addr_a = m_pc++;
+}
 
-u8 Cpu::ZP0(){}
 
-u8 Cpu::ZPX(){}
+u8 Cpu::ZP0()
+{
+  m_addr_a = m_read(m_pc);
+  m_pc++;
+  m_addr_a &= 0x00FF;
+}
 
-u8 Cpu::ZPY(){}
+u8 Cpu::ZPX()
+{
+  m_addr_a = (m_read(m_pc) + m_regX); 
+  m_pc++;
+  m_addr_a &= 0x0FF;
+}
 
-u8 Cpu::ABS(){}
+u8 Cpu::ZPY()
+{
+  m_addr_a = (m_read(m_pc) + m_regY); 
+  m_pc++;
+  m_addr_a &= 0x0FF;
+}
 
-u8 Cpu::ABX(){}
+u8 Cpu::ABS()
+{
+  u8 lo = m_read(m_pc);
+  m_pc++;
+  u8 hi = m_read(m_pc);
+  m_pc++;
+  m_addr_a = ( hi << 8) | lo ;
+}
 
-u8 Cpu::ABY(){}
+u8 Cpu::ABX()
+{
+   u8 lo = m_read(m_pc);
+  m_pc++;
+  u8 hi = m_read(m_pc);
+  m_pc++;
+  m_addr_a = ( hi << 8) | lo ;
+  m_addr_a += m_regX;
+
+  if ((m_addr_a & 0xFF00) != (hi << 8))
+  return 1;
+  else 
+  return 0;
+  
+
+}
+
+u8 Cpu::ABY()
+{
+  u8 lo = m_read(m_pc);
+  m_pc++;
+  u8 hi = m_read(m_pc);
+  m_pc++;
+  m_addr_a = ( hi << 8) | lo ;
+  m_addr_a += m_regY;
+
+  if ((m_addr_a & 0xFF00) != (hi << 8))
+  return 1;
+  else 
+  return 0;
+}
 
 u8 Cpu::REL()
 {
 
 if ((m_start & 0xff00) == (m_end & 0xff0))
-{
 m_cycles++;
-}
 else
-   m_cycles +=2;
+m_cycles +=2;
 
 }
 
-u8 Cpu::IND(){}
+u8 Cpu::IND()
+{
+  u8 lo = m_read(m_pc);
+	m_pc++;
+	u8 hi = m_read(m_pc);
+	m_pc++;
 
-u8 Cpu::IZX(){}
+	u8 ptr = (hi << 8) | lo;
 
-u8 Cpu::IZY(){}
+	if (lo == 0x00FF)
+	m_addr_a= (m_read(ptr & 0xFF00) << 8) | m_read(ptr + 0);
+	else 
+	m_addr_a = (m_read(ptr + 1) << 8) | m_read(ptr + 0);
+	
+	return 0;
+  
+}
+
+u8 Cpu::IZX()
+{
+  u8 t = m_read(m_pc);
+	m_pc++;
+
+	u8 lo = m_read((u16)(t + (u16)m_regX) & 0x00FF);
+	u8 hi = m_read((u16)(t + (u16)m_regX + 1) & 0x00FF);
+
+	m_addr_a = (hi << 8) | lo;
+	
+	return 0;
+}
+
+u8 Cpu::IZY()
+{
+  u8 t= m_read(m_pc);
+  m_pc++;
+  u8 lo = m_read(t & 0x00FF);
+  u8 hi = m_read((t+ 1) & 0x00FF);
+  m_addr_a = ( hi << 8) | lo;
+  m_addr_a += m_regY;
+
+  if ((m_addr_a & 0xFF00) !=(hi << 8))
+  return (1);
+  else
+  return (0);
+  
+
+
+}
 
 /*
 BRK initiates a software interrupt similar to a hardware
@@ -395,22 +509,20 @@ m_cycles++;
 //branch on C = 0 Branch on Carry Clear
 u8 Cpu::BCC()
 {
-if (GetFlag(C)==0 )
-{
+if (GetFlag(C)==0)
 m_cycles++;
 SetFlag(C, false);
 
-}
 
 
 }
-
-u8 Cpu::LDY(){}
+// Load index Y with memory
+u8 Cpu::LDY() {}
 
 u8 Cpu::BCS(){}
 
 u8 Cpu::CPY(){}
-
+//Branch on Result not Zero
 u8 Cpu::BNE(){}
 
 u8 Cpu::CPX(){}

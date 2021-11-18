@@ -10,8 +10,12 @@
 
 int main(int argc, char* argv[]) {
 
- 
-  
+     /*  if (argc != 2) {
+
+           std::cout << "\033[1;31mUsage: Nes <ROM file>\033[0m\n" << std::endl;
+           return 1;
+       }
+*/
     SDL_Window *window;                   
 
     SDL_Init(SDL_INIT_VIDEO);              

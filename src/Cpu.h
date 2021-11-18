@@ -1,13 +1,17 @@
+#pragma once
 #include"Typedef.h"
 
 
+
+
+
+
+
 namespace olc6502
-
 {
-
+class Bus;
 
 class Cpu
-
 {
   
 private:
@@ -20,7 +24,7 @@ public:
 
    u8 (Cpu::*CodeExec)(void);
    u8 (Cpu::*AddrExec)(void);
-
+	
 
      struct INSTRUCTION
      {
@@ -34,7 +38,8 @@ public:
 
 
 
-
+Bus     *bus = nullptr;
+void ConnectBus(Bus *n) { bus = n; }
 
 //opcode
 u8 ADC();  u8 AND();  u8 ASL();   u8 BCC(); 	
@@ -82,7 +87,8 @@ void Interrupt();
 void opbranch();
 void Push_Stack(u8);
 void Pop();
-void Write(u16 , u8);
+void Write(u16 a, u8 d);
+u8 fetch();
 
  // CPU registers             
 u8 m_ac ;           //Accumulator
@@ -94,7 +100,7 @@ u8 m_st_reg;      //Status_Register
 u8 m_skipCycles; //Skip Cyles
 u8 m_cycles;     //Cycles
 u8 m_status;   //
-u16 m_addr_a;
+u16 m_addr_a; //All used memory addresses end up in here
 u16 m_addr_b;
 u8 m_pcm;
 u8 m_start;
@@ -102,7 +108,7 @@ u8 m_end;
 u8 m_fetched;
 u8 m_temp;
 u8 m_read(u16 a);
-
+u8 m_opcode;
 
 
 
