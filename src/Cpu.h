@@ -121,8 +121,8 @@ enum  FLAGS {
   D = ( 1 << 3 ),        // DECIMAL  
   B = ( 1 << 5 ),       // BREAK
   N = ( 1 << 6 ),     // Negative
-  V = ( 1 << 7 ),     // Overflow    
-
+  V = ( 1 << 7 ),    // Overflow    
+  U = (1  << 8 ),   // Unused
   };
 
 u8   GetFlag(FLAGS f);
