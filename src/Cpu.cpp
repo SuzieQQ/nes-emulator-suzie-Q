@@ -767,11 +767,26 @@ u8 Cpu::TAY()
 
 u8 Cpu::CLV(){}
 
-u8 Cpu::INY(){}
+// "Increment Index Y by One";
+u8 Cpu::INY()
+{
+  SetFlag(N,m_regY & 0x80);
+  SetFlag(Z,m_regY == 0x00);
+  m_regY++;
+  return(0);
+
+}
 
 u8 Cpu::CLD(){}
 
-u8 Cpu::INX(){}
+// "Increment Index X by One";
+u8 Cpu::INX()
+{
+  SetFlag(N,m_regX & 0x80);
+  SetFlag(Z,m_regX == 0x00);
+  m_regX++;
+  return(0);
+}
 
 //Set Decimal Flag
 u8 Cpu::SED()
@@ -788,13 +803,15 @@ u8 Cpu::TXA()
  SetFlag(N,m_ac & 0x80);
 return(0);
 }
-//Transfer Index X to Stack Register
+
+// "Transfer Index X to Stack Register";
 u8 Cpu::TXS()
 {
   m_sp = m_regX;
   return(0);
 }
-//Transfer Accumulator to Index X
+
+// "Transfer Accumulator to Index X";
 u8 Cpu::TAX()
 {
  
