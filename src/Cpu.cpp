@@ -609,11 +609,17 @@ u8 Cpu::ADC()
 
 }
 
-u8 Cpu::STA(){}
+// "Store Accumulator in Memory";
+u8 Cpu::STA()
+{
+  Write(m_addr_a, m_ac);
+  return(0);
+}
 
 u8 Cpu::LDA(){}
 
 u8 Cpu::CMP(){}
+
 //Subtract Memory from Accumulator with Borrow
 u8 Cpu::SBC()
 {
@@ -630,12 +636,16 @@ u8 Cpu::SBC()
 u8 Cpu::LDX(){}
 
 u8 Cpu::BIT(){}
-
-u8 Cpu::STY(){}
+// "Store Index Y in Memory";
+u8 Cpu::STY()
+{
+  Write(m_addr_a, m_regY);
+  return(0);
+}
 
 u8 Cpu::ASL(){} 
 
-//Rotate One Bit Left (Memory or Accumulator)
+// "Rotate One Bit Left (Memory or Accumulator";
 u8 Cpu::ROL()
 {
   fetch();
@@ -678,8 +688,12 @@ u8 Cpu::ROR()
 	return (0);
 
 }
-
-u8 Cpu::STX(){}
+// "Store Index X in Memory";
+u8 Cpu::STX()
+{
+  Write(m_addr_a, m_regX);
+  return(0);
+}
 
 u8 Cpu::DEC(){}
 
@@ -692,7 +706,7 @@ u8 Cpu::PHP()
   SetFlag(B,0);
   SetFlag(U,0);
   m_sp--;
- return (0);
+  return (0);
 }
 
 u8 Cpu::CLC(){}
