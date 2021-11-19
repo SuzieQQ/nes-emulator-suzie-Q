@@ -225,13 +225,13 @@ void Cpu::Execute_Cycle()
 u8 Cpu::fetch()
 {
   if (!(Table[m_opcode].addrmode == &Cpu::IMP))
-		m_fetched = m_read(m_addr_a);
+	m_fetched = m_read(m_addr_a);
 	return m_fetched;
   
 }
 
-void Cpu::Push_Stack(u8 value)
 
+void Cpu::Push_Stack(u8 value)
 {
 
 Push_Stack(value >> 8);
@@ -239,10 +239,12 @@ Push_Stack(value & 0x00FF);
 
 }
 
+
 u8 Cpu::IMP()
 {
   m_fetched = m_ac;
 }
+
 
 u8 Cpu::IMM()
 {
@@ -257,12 +259,14 @@ u8 Cpu::ZP0()
   m_addr_a &= 0x00FF;
 }
 
+
 u8 Cpu::ZPX()
 {
   m_addr_a = (m_read(m_pc) + m_regX); 
   m_pc++;
   m_addr_a &= 0x0FF;
 }
+
 
 u8 Cpu::ZPY()
 {
@@ -290,9 +294,9 @@ u8 Cpu::ABX()
   m_addr_a += m_regX;
 
   if ((m_addr_a & 0xFF00) != (hi << 8))
-  return 1;
+  return (1);
   else 
-  return 0;
+  return (0);
   
 
 }
@@ -309,7 +313,7 @@ u8 Cpu::ABY()
   if ((m_addr_a & 0xFF00) != (hi << 8))
   return 1;
   else 
-  return 0;
+  return (0);
 }
 
 u8 Cpu::REL()
@@ -336,7 +340,7 @@ u8 Cpu::IND()
 	else 
 	m_addr_a = (m_read(ptr + 1) << 8) | m_read(ptr + 0);
 	
-	return 0;
+	return (0);
   
 }
 
@@ -350,7 +354,7 @@ u8 Cpu::IZX()
 
 	m_addr_a = (hi << 8) | lo;
 	
-	return 0;
+	return (0);
 }
 
 u8 Cpu::IZY()
@@ -388,7 +392,7 @@ Push_Stack((u8) m_pc);
 Push_Stack(m_status | B );
 
 }
-// branch on N = 0
+// "branch on N = 0";
 u8 Cpu::BPL()
 {
     
@@ -397,21 +401,19 @@ u8 Cpu::BPL()
 {
  
   (m_pc,m_pc +  m_addr_a);
-      
       m_pc + m_addr_a ;
 
 }
 
 
 }
-// Jump to New Location Saving Return Address
-u8 Cpu::JSR(){
-
-m_pc --;
-Push_Stack(u8( m_pc >> 8));
-Push_Stack((u8) m_pc);
-m_pc = m_addr_a;
-
+// "Jump to New Location Saving Return Address";
+  u8 Cpu::JSR()
+{
+   m_pc --;
+   Push_Stack(u8( m_pc >> 8));
+   Push_Stack((u8) m_pc);
+   m_pc = m_addr_a;
 
 }
 
@@ -419,8 +421,6 @@ m_pc = m_addr_a;
 //branch on N = 1
 u8 Cpu::BMI()
 {
-
-  //opbranch();
 
   if (GetFlag(N) == 1)
 {
@@ -442,17 +442,16 @@ u8 Cpu::BMI()
 */
 u8 Cpu::RTI()
 {
-m_sp++;
+
+  m_sp++;
 	m_status = m_read(0x0100 + m_sp);
 	m_status &= ~B;
 	m_status &= ~B;
-
 	m_sp++;
 	m_pc =  (u16)m_read(0x0100 + m_sp);
 	m_sp++;
 	m_pc |= (u16)m_read(0x0100 + m_sp) << 8;
 	
-
 }
 
 
@@ -463,13 +462,13 @@ u8 Cpu::BVC()
 {
  if (GetFlag(V) == 0)
  {
+  
    m_cycles++;
    m_addr_a = m_pc + m_addr_b;
-
-    if ((m_addr_a & 0xFF00) != (m_pc & 0xFF00))
-			m_cycles++;
-
-		m_pc = m_addr_a;
+   if ((m_addr_a & 0xFF00) != (m_pc & 0xFF00))
+	 m_cycles++;
+   m_pc = m_addr_a;
+ 
  }
  
 }
@@ -556,8 +555,19 @@ u8 Cpu::BNE()
 	}
 	return (0);
 }
+// "Compare Memory and Index X";
+u8 Cpu::CPX()
+{
+  m_regX;
 
-u8 Cpu::CPX(){}
+   fetch();
+	m_temp = (u16)m_regX - (u16)m_fetched;
+	SetFlag(C, m_regX >= m_fetched);
+	SetFlag(Z, (m_temp & 0x00FF) == 0x0000);
+	SetFlag(N, m_temp & 0x0080);
+	return (0);
+
+}
 
 //Branch on Result Zero
 u8 Cpu::BEQ()
@@ -594,8 +604,14 @@ u8 Cpu::ORA()
 	SetFlag(N, m_ac & 0x80);
 	return (1);
 }
-
-u8 Cpu::EOR(){}
+// "Exclusive-OR Memory with Accumulator";
+u8 Cpu::EOR()
+{
+ m_ac = m_ac ^ m_fetched;
+SetFlag(N, m_ac & 0x80 );
+SetFlag(Z, m_ac == 0x00 );
+return(1);
+}
 
 //Add Memory to Accumulator with Carry
 u8 Cpu::ADC()
@@ -616,11 +632,28 @@ u8 Cpu::STA()
   return(0);
 }
 
-u8 Cpu::LDA(){}
+// "Load Accumulator with Memory";
+u8 Cpu::LDA()
+{
+ fetch();
+ m_ac = m_fetched; 
+ SetFlag(N, m_ac & 0x80 );
+ SetFlag(Z, m_ac == 0x00 );
+ return(1);
+}
+// "Compare Memory with Accumulator";
+u8 Cpu::CMP()
+{
+ fetch();
+	m_temp = (u16)m_ac - (u16)m_fetched;
+	SetFlag(C, m_ac >= m_fetched);
+	SetFlag(Z, (m_temp & 0x00FF) == 0x0000);
+	SetFlag(N, m_temp & 0x0080);
+	return (1);
 
-u8 Cpu::CMP(){}
+}
 
-//Subtract Memory from Accumulator with Borrow
+// "Subtract Memory from Accumulator with Borrow";
 u8 Cpu::SBC()
 {
   u16 m_value = ((u16)m_fetched) ^ 0x00FF;
@@ -633,9 +666,27 @@ u8 Cpu::SBC()
   return(1);
 }
 
-u8 Cpu::LDX(){}
+// "Load Index X with Memory";
+u8 Cpu::LDX()
+{
+  fetch();
+ m_regX = m_fetched; 
+ SetFlag(N, m_regX & 0x80 );
+ SetFlag(Z, m_regX == 0x00 );
+ return(1);
+}
+// "Shift One Bit Right (Memory or Accumulator)";
+u8 Cpu::BIT()
+{
+  fetch();
+	m_temp = m_ac & m_fetched;
+	SetFlag(Z, (m_temp & 0x00FF) == 0x00);
+	SetFlag(N, m_fetched & (1 << 7));
+	SetFlag(V, m_fetched & (1 << 6));
+	return (0);
 
-u8 Cpu::BIT(){}
+}
+
 // "Store Index Y in Memory";
 u8 Cpu::STY()
 {
@@ -643,7 +694,19 @@ u8 Cpu::STY()
   return(0);
 }
 
-u8 Cpu::ASL(){} 
+// "Shift Left One Bit (Memory or Accumulator)";
+u8 Cpu::ASL()
+{
+  fetch();
+	m_temp = (u16) m_fetched << 1;
+	SetFlag(Z, (m_temp & 0xFF00) > 0);
+	SetFlag(N, m_temp & 0x80 );
+	SetFlag(C, (m_temp & 0xFF00) > 0);
+  if (Table[m_opcode].addrmode == &Cpu::IMP)
+     m_ac = m_temp & 0x00FF;
+     else Write(m_addr_a,m_temp & 0x00FF);
+     return (0);
+} 
 
 // "Rotate One Bit Left (Memory or Accumulator";
 u8 Cpu::ROL()
@@ -694,10 +757,27 @@ u8 Cpu::STX()
   Write(m_addr_a, m_regX);
   return(0);
 }
+// "Decrement Memory by One";
+u8 Cpu::DEC()
+{
+  fetch();
+  m_temp = m_fetched -1;
+  Write(m_addr_a, m_temp & 0x00FF);
+  SetFlag(Z,(m_temp & 0x00FF) == 0x0000);
+  SetFlag(N, m_temp & 0x0080);
+  return(0);
+}
 
-u8 Cpu::DEC(){}
-
-u8 Cpu::INC(){}
+// "Increment Memory by One";
+u8 Cpu::INC()
+{
+  fetch();
+  m_temp = m_fetched + 1;
+  Write(m_addr_a, m_temp & 0x00FF);
+  SetFlag(Z,(m_temp & 0x00FF) == 0x0000);
+  SetFlag(N, m_temp & 0x0080);
+  return(0);
+}
 
 //Push Processor Status on Stack
 u8 Cpu::PHP()
@@ -708,8 +788,13 @@ u8 Cpu::PHP()
   m_sp--;
   return (0);
 }
+// "Clear Carry Flag";
+u8 Cpu::CLC()
+{ 
+  SetFlag(C,0);
+  return(0);
 
-u8 Cpu::CLC(){}
+}
 
 u8 Cpu::PLP()
 {
@@ -731,10 +816,14 @@ u8 Cpu::PHA()
 {
  Write(0x0100 + m_sp, m_ac);
  m_sp--;
- return 0; 
+ return (0); 
 }
-
-u8 Cpu::CLI(){}
+// "Clear Interrupt Disable Bit";
+u8 Cpu::CLI()
+{
+  SetFlag(I,0);
+  return(0);
+}
 
 u8 Cpu::PLA()
 {
@@ -751,10 +840,23 @@ u8 Cpu::SEI()
   SetFlag(I,1);
   return(0);
 }
+// "Decrement Index Y by One";
+u8 Cpu::DEY()
+{
+  m_regY--;
+  SetFlag(N,m_regY & 0x80);
+  SetFlag(Z,m_regY == 0x00);
+ return(0);
+}
+// "Transfer Index Y to Accumulator";
+u8 Cpu::TYA()
+{
+  m_ac = m_regY;
+  SetFlag(N, m_ac & 0x80);
+  SetFlag(Z,m_ac == 0x00);
+  return (0);
+} 
 
-u8 Cpu::DEY(){}
-
-u8 Cpu::TYA(){} 
 //Transfer Accumulator to Index Y
 u8 Cpu::TAY()
 {
@@ -764,8 +866,12 @@ u8 Cpu::TAY()
  return(0);
 
 }
-
-u8 Cpu::CLV(){}
+// "Clear Overflow Flag";
+u8 Cpu::CLV()
+{
+  SetFlag(V,0);
+  return(0);
+}
 
 // "Increment Index Y by One";
 u8 Cpu::INY()
@@ -776,8 +882,12 @@ u8 Cpu::INY()
   return(0);
 
 }
-
-u8 Cpu::CLD(){}
+// "Clear Decimal Mode";
+u8 Cpu::CLD()
+{
+  SetFlag(D,0);
+  return(0);
+}
 
 // "Increment Index X by One";
 u8 Cpu::INX()
@@ -830,8 +940,13 @@ SetFlag(N, m_ac & 0x80);
 SetFlag(Z, m_ac == 0x00);
 return(0);
 }  
-
-u8 Cpu::DEX(){}
+// "Decrement Index X by One";
+u8 Cpu::DEX()
+{
+  m_regX--;
+  SetFlag(N,m_regX & 0x80);
+  SetFlag(Z,m_regX == 0x00);
+}
 
 u8 Cpu::NOP()
 {
@@ -842,13 +957,19 @@ u8 Cpu::NOP()
 	case 0x7C:
 	case 0xDC:
 	case 0xFC:
-		return 1;
-		break;
-	}
+	return 1;
+	break;
+	                  }
 	return 0;
 } 
-
-u8 Cpu::JMP(){}
+// "Jump to New Location";
+u8 Cpu::JMP()
+{
+   m_pc --;
+   Push_Stack(u8( m_pc >> 8));
+   Push_Stack((u8) m_pc);
+   m_pc = m_addr_a;
+}
 
 
     
