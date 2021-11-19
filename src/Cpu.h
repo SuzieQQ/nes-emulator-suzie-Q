@@ -31,7 +31,7 @@ public:
          std::string name;
          u8     (Cpu::*operate )(void) = nullptr;
          u8     (Cpu::*addrmode)(void) = nullptr;
-         u8      cycles = 0;
+         u8      m_cycles = 0;
      };
     
      std::vector<INSTRUCTION> Table;
@@ -77,13 +77,12 @@ u8 IZY();
 
 
 void Init();
-void Execute_Cycle();
 void Reset();
 void Reset(u16 start_addr);
 bool Load(const char **);
 void Nmi();
 void Irq();
-void Interrupt();
+void Clock();
 void opbranch();
 void Push_Stack(u8);
 void Pop();
@@ -97,7 +96,7 @@ u8 m_regY;         // Register_Y
 u8 m_pc;          //Program_Counter
 u8 m_sp;           //Stack_Pointer
 u8 m_st_reg;      //Status_Register
-u8 m_skipCycles; //Skip Cyles
+u8 m_Clock_count; //Skip Cyles
 u8 m_cycles;     //Cycles
 u8 m_status;   //
 u16 m_addr_a; //All used memory addresses end up in here
@@ -131,20 +130,7 @@ void SetFlag(FLAGS f, bool v);
 
 
 
-enum IORegisters
-    {
-        PPUCTRL = 0x2000,
-        PPUMASK,
-        PPUSTATUS,
-        OAMADDR,
-        OAMDATA,
-        PPUSCROL,
-        PPUADDR,
-        PPUDATA,
-        OAMDMA = 0x4014,
-        JOY1 = 0x4016,
-        JOY2 = 0x4017,
-    };
+
 
 
 
