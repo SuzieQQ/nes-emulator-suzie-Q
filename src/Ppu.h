@@ -71,9 +71,22 @@ struct OAM_ADDR
 
 
 
-
-
-
+/*
+enum IORegisters
+    {
+        PPUCTRL = 0x2000,
+        PPUMASK,
+        PPUSTATUS,
+        OAMADDR,
+        OAMDATA,
+        PPUSCROL,
+        PPUADDR,
+        PPUDATA,
+        OAMDMA = 0x4014,
+        JOY1 = 0x4016,
+        JOY2 = 0x4017,
+    };
+*/
 
 
 };

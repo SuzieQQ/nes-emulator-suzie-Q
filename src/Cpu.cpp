@@ -281,7 +281,7 @@ void Cpu::Clock()
 		u8 additional_cycle2 = (this->*Table[m_opcode].operate)();
 		m_cycles += (additional_cycle1 & additional_cycle2);
 		SetFlag(U, true);
-  	m_Clock_count++;
+  	m_clock_count++;
 	  m_cycles--;
 }
 

@@ -96,7 +96,7 @@ u8 m_regY;         // Register_Y
 u8 m_pc;          //Program_Counter
 u8 m_sp;           //Stack_Pointer
 u8 m_st_reg;      //Status_Register
-u8 m_Clock_count; //Skip Cyles
+u8 m_clock_count; //Count  Clock
 u8 m_cycles;     //Cycles
 u8 m_status;   //
 u16 m_addr_a; //All used memory addresses end up in here
