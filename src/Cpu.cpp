@@ -228,20 +228,17 @@ void Cpu::Irq()
 		Write(0x0100 + m_sp, m_pc & 0x00FF);
 		m_sp--;
 
-		// Then Push the status register to the stack
 		SetFlag(B, 0);
 		SetFlag(U, 1);
 		SetFlag(I, 1);
 		Write(0x0100 + m_sp, m_status);
 		m_sp--;
 
-		// Read new program counter location from fixed address
 		m_addr_a = 0xFFFE;
 		u16 lo = m_read(m_addr_a + 0);
 		u16 hi = m_read(m_addr_a + 1);
 		m_pc = (hi << 8) | lo;
 
-		// IRQs take time
 		m_cycles = 7;
 	}
 }
@@ -331,6 +328,7 @@ u8 Cpu::ZP0()
 }
 
 
+
 u8 Cpu::ZPX()
 {
   m_addr_a = (m_read(m_pc) + m_regX); 
@@ -346,6 +344,7 @@ u8 Cpu::ZPY()
   m_addr_a &= 0x0FF;
 }
 
+
 u8 Cpu::ABS()
 {
   u8 lo = m_read(m_pc);
@@ -354,6 +353,7 @@ u8 Cpu::ABS()
   m_pc++;
   m_addr_a = ( hi << 8) | lo ;
 }
+
 
 u8 Cpu::ABX()
 {
@@ -372,6 +372,7 @@ u8 Cpu::ABX()
 
 }
 
+
 u8 Cpu::ABY()
 {
   u8 lo = m_read(m_pc);
@@ -387,6 +388,7 @@ u8 Cpu::ABY()
   return (0);
 }
 
+
 u8 Cpu::REL()
 {
 
@@ -396,6 +398,7 @@ else
 m_cycles +=2;
 
 }
+
 
 u8 Cpu::IND()
 {
@@ -415,6 +418,7 @@ u8 Cpu::IND()
   
 }
 
+
 u8 Cpu::IZX()
 {
   u8 t = m_read(m_pc);
@@ -427,6 +431,7 @@ u8 Cpu::IZX()
 	
 	return (0);
 }
+
 
 u8 Cpu::IZY()
 {
@@ -463,6 +468,7 @@ Push_Stack((u8) m_pc);
 Push_Stack(m_status | B );
 
 }
+
 // "branch on N = 0";
 u8 Cpu::BPL()
 {
@@ -478,6 +484,7 @@ u8 Cpu::BPL()
 
 
 }
+
 // "Jump to New Location Saving Return Address";
   u8 Cpu::JSR()
 {
@@ -529,7 +536,6 @@ u8 Cpu::RTI()
    
 
 // "Branch on Overflow Clear   branch on V = 0";
-
 u8 Cpu::BVC()
 {
  if (GetFlag(V) == 0)
@@ -548,7 +554,6 @@ u8 Cpu::BVC()
 
 
 // "Return from Subroutine pull PC, PC+1 -> PC":
-
 u8 Cpu::RTS()
 {
   m_sp++;
@@ -626,6 +631,7 @@ u8 Cpu::BNE()
 	}
 	return (0);
 }
+
 // "Compare Memory and Index X";
 u8 Cpu::CPX()
 {
@@ -667,6 +673,7 @@ u8 Cpu::AND()
 	return (1);
 }
 
+
 u8 Cpu::ORA()
 {
   fetch();
@@ -675,6 +682,7 @@ u8 Cpu::ORA()
 	SetFlag(N, m_ac & 0x80);
 	return (1);
 }
+
 // "Exclusive-OR Memory with Accumulator";
 u8 Cpu::EOR()
 {
@@ -712,6 +720,7 @@ u8 Cpu::LDA()
  SetFlag(Z, m_ac == 0x00 );
  return(1);
 }
+
 // "Compare Memory with Accumulator";
 u8 Cpu::CMP()
 {
@@ -746,6 +755,7 @@ u8 Cpu::LDX()
  SetFlag(Z, m_regX == 0x00 );
  return(1);
 }
+
 // "Shift One Bit Right (Memory or Accumulator)";
 u8 Cpu::BIT()
 {
@@ -807,6 +817,7 @@ u8 Cpu::LSR()
   Write(m_addr_a, m_temp & 0x00FF);
   
 }
+
 // "Rotate One Bit Right (Memory or Accumulator";
 u8 Cpu::ROR()
 {
@@ -822,12 +833,14 @@ u8 Cpu::ROR()
 	return (0);
 
 }
+
 // "Store Index X in Memory";
 u8 Cpu::STX()
 {
   Write(m_addr_a, m_regX);
   return(0);
 }
+
 // "Decrement Memory by One";
 u8 Cpu::DEC()
 {
@@ -875,20 +888,21 @@ u8 Cpu::PLP()
   return(0);
 }
 
-//Set Carry Flag
+// "Set Carry Flag";
 u8 Cpu::SEC()
 {
   SetFlag(C,1);
   return(0);
 }
 
-//Push Accumulator on Stack
+// "Push Accumulator on Stack";
 u8 Cpu::PHA()
 {
  Write(0x0100 + m_sp, m_ac);
  m_sp--;
  return (0); 
 }
+
 // "Clear Interrupt Disable Bit";
 u8 Cpu::CLI()
 {
@@ -911,6 +925,7 @@ u8 Cpu::SEI()
   SetFlag(I,1);
   return(0);
 }
+
 // "Decrement Index Y by One";
 u8 Cpu::DEY()
 {
@@ -919,6 +934,7 @@ u8 Cpu::DEY()
   SetFlag(Z,m_regY == 0x00);
   return(0);
 }
+
 // "Transfer Index Y to Accumulator";
 u8 Cpu::TYA()
 {
@@ -937,6 +953,7 @@ u8 Cpu::TAY()
  return(0);
 
 }
+
 // "Clear Overflow Flag";
 u8 Cpu::CLV()
 {
@@ -953,6 +970,7 @@ u8 Cpu::INY()
   return(0);
 
 }
+
 // "Clear Decimal Mode";
 u8 Cpu::CLD()
 {
@@ -1002,6 +1020,7 @@ u8 Cpu::TAX()
  return(0);
 
 }
+
 //Transfer Stack Pointer to Index X
 u8 Cpu::TSX()
 {
@@ -1011,6 +1030,7 @@ SetFlag(N, m_ac & 0x80);
 SetFlag(Z, m_ac == 0x00);
 return(0);
 }  
+
 // "Decrement Index X by One";
 u8 Cpu::DEX()
 {
@@ -1033,6 +1053,7 @@ u8 Cpu::NOP()
 	                  }
 	return 0;
 } 
+
 // "Jump to New Location";
 u8 Cpu::JMP()
 {
@@ -1041,22 +1062,6 @@ u8 Cpu::JMP()
    Push_Stack((u8) m_pc);
    m_pc = m_addr_a;
 }
-
-
-    
-
- 
-  	
-
-        
-      
-
-
-
-
-
-
-
 
 
 }
