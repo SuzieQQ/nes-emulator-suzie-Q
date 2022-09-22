@@ -6,6 +6,12 @@ this and first debug release with various bugs
 
 to make it work you need to have installed imgui,fmt, sdl2 work only linux system
 
+mapper support : NROM,CNROM,AXROM
+mapper bugged : SXROM
+
+APU : not support
+
+
 to start the emulator from terminal ./nesemu /pathyourgame
 
  ![Screenshot 1](https://github.com/SuzieQQ/nes-emulator-suzie-Q/blob/main/images/donkeykong.png)
