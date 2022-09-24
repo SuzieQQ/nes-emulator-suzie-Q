@@ -7,6 +7,8 @@ this and first debug release with various bugs
 to make it work you need to have installed imgui,fmt, sdl2 work only linux system
 
 mapper support : NROM
+
+
 mapper bugged : SXROM, CNROM,AXROM
 
 APU : not support
